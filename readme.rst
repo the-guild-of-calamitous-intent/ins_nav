@@ -14,8 +14,8 @@ ins_nav
 .. image:: https://img.shields.io/pypi/l/ins_nav.svg
     :target: https://pypi.python.org/pypi/ins_nav/
     :alt: License
-.. image:: https://travis-ci.org/walchko/ins_nav.svg?branch=master
-    :target: https://travis-ci.org/walchko/ins_nav
+.. image:: https://travis-ci.org/MomsFriendlyRobotCompany/ins_nav.svg?branch=master
+    :target: https://travis-ci.org/MomsFriendlyRobotCompany/ins_nav
 .. image:: https://img.shields.io/pypi/pyversions/ins_nav.svg
     :target:  https://pypi.python.org/pypi/ins_nav
 .. image:: https://img.shields.io/pypi/format/ins_nav.svg

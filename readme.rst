@@ -1,8 +1,8 @@
 .. image:: https://raw.githubusercontent.com/MomsFriendlyRobotCompany/ins_nav/master/docs/pics/Thor_Tesseract.jpg
-    :align: center
+    :align: center
     :width: 300px
     :target: https://github.com/MomsFriendlyRobotCompany/ins_nav
-    :alt: animated gif
+    :alt: Infinity Stone: Space
 
 ins_nav
 =========

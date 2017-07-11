@@ -21,7 +21,16 @@ ins_nav
 .. image:: https://img.shields.io/pypi/format/ins_nav.svg
     :target:  https://pypi.python.org/pypi/ins_nav
 
+This library is written independent of any specific IMU. The idea is you pass in the appropriate
+measurements and error terms from your IMU and get the desired output.
 
+**This is still under heavy development**
+
+# Why the Tesseract?
+
+The space gem allows its user to manipulate space anyway one sees fit. Its most basic powers allow one to teleport themselves and others any place they can picture in their mind regardless of distance or preventive measures such as walls or spells. It can increase the speed of the user. Its more powerful abilities allow one to appear in multiple places at once or altering the distance between objects contrary to the laws of physics. At its peak when used in conjunction with the other gems it allows its user to be at all places in the universe at once simultaneously
+
+After being separated from the other Infinity Stones, the Space Gem became in possession of the Asgardian leader Odin, and it was reshaped into a cube, which would be known as the Tesseract. It possesses the potential to create infinite energy, which can be used to create wormholes to other parts of the universe and different dimensions. For unknown reasons the Tesseract was hidden on Earth.
 
 Setup
 --------

@@ -26,7 +26,8 @@ measurements and error terms from your IMU and get the desired output.
 
 **This is still under heavy development**
 
-# Why the Tesseract?
+Why the Tesseract?
+----------------------
 
 The space gem allows its user to manipulate space anyway one sees fit. Its most basic powers allow one to teleport themselves and others any place they can picture in their mind regardless of distance or preventive measures such as walls or spells. It can increase the speed of the user. Its more powerful abilities allow one to appear in multiple places at once or altering the distance between objects contrary to the laws of physics. At its peak when used in conjunction with the other gems it allows its user to be at all places in the universe at once simultaneously
 

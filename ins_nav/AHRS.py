@@ -36,7 +36,8 @@ class AHRS(object):
 	def __init__(self, deg=False):
 		self.deg = deg
 
-	def getOrientation(self, accel, mag):
+	def getOrientation(self, raw_accel, mag):
+		accel = (raw_accel)
 		ax, ay, az = accel
 		mx, my, mz = mag
 		roll = atan2(ay, az)

@@ -49,7 +49,7 @@ To submit git pulls, clone the repository and set it up as follows::
 Usage
 --------
 
-[ref needs updating](https://walchko.github.io/posts/2016/02/inertial-navigation/)
+`ref needs updating <https://walchko.github.io/posts/2016/02/inertial-navigation/>`_
 
 TBD
 

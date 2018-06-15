@@ -1,43 +1,25 @@
-.. image:: https://raw.githubusercontent.com/MomsFriendlyRobotCompany/ins_nav/master/docs/pics/header.jpg
-    :align: center
-    :width: 300px
-    :target: https://github.com/MomsFriendlyRobotCompany/ins_nav
-    :alt: Infinity Stone: Space
+[![](https://raw.githubusercontent.com/MomsFriendlyRobotCompany/ins_nav/master/docs/pics/header.jpg)](https://github.com/MomsFriendlyRobotCompany/ins_nav)
 
-ins_nav
-=========
+# ins_nav
 
+![PyPI - License](https://img.shields.io/pypi/l/ins_nav.svg)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ins_nav.svg)
+![PyPI - Format](https://img.shields.io/pypi/format/ins_nav.svg)
+![PyPI](https://img.shields.io/pypi/v/ins_nav.svg)
 
-.. image:: https://img.shields.io/pypi/v/ins_nav.svg
-    :target: https://pypi.python.org/pypi/ins_nav/
-    :alt: Latest Version
-.. image:: https://img.shields.io/pypi/l/ins_nav.svg
-    :target: https://pypi.python.org/pypi/ins_nav/
-    :alt: License
-.. image:: https://travis-ci.org/MomsFriendlyRobotCompany/ins_nav.svg?branch=master
-    :target: https://travis-ci.org/MomsFriendlyRobotCompany/ins_nav
-.. image:: https://img.shields.io/pypi/pyversions/ins_nav.svg
-    :target:  https://pypi.python.org/pypi/ins_nav
-.. image:: https://img.shields.io/pypi/format/ins_nav.svg
-    :target:  https://pypi.python.org/pypi/ins_nav
 
 This library is written independent of any specific IMU. The idea is you pass in the appropriate
 measurements and error terms from your IMU and get the desired output.
 
 **This is still under heavy development**
 
-Setup
---------
+# Install
 
-Install
-~~~~~~~~~~~~~
-
-The suggested way to install this is via the ``pip`` command as follows::
+The suggested way to install this is via the `pip` command as follows::
 
 	pip install ins_nav
 
-Development
-~~~~~~~~~~~~~
+## Development
 
 To submit git pulls, clone the repository and set it up as follows::
 
@@ -46,22 +28,17 @@ To submit git pulls, clone the repository and set it up as follows::
 	pip install -r requirements
 	pip install -e .
 
-Usage
---------
-
-`ref needs updating <https://walchko.github.io/posts/2016/02/inertial-navigation/>`_
+## Usage
 
 TBD
 
-Change Log
--------------
+# Change Log
 
-========== ======= =============================
-2017-07-07 0.0.1   init
-========== ======= =============================
+|||
+|------------|---------|-------------------------|
+| 2017-07-07 | 0.0.1   | init                    |
 
-Software License
-------------------------
+# Software License
 
 **The MIT License (MIT)**
 

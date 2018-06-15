@@ -34,13 +34,12 @@ TBD
 
 # Change Log
 
-|||
+| | |
 |------------|---------|-------------------------|
 | 2017-07-07 | 0.0.1   | init                    |
 
-# Software License
 
-**The MIT License (MIT)**
+# The MIT License (MIT)
 
 Copyright (c) 2017 Kevin J. Walchko
 

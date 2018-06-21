@@ -1,5 +1,5 @@
-from .AHRS import AHRS
+#from .AHRS import AHRS
 
 __author__ = 'Kevin J. Walchko'
 __license__ = 'MIT'
-from .version import __version__
+__version__ = '0.5.0'

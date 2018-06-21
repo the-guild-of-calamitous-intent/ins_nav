@@ -6,6 +6,18 @@ from nxp_imu import IMU
 from pydar import LDS01
 from the_collector import BagWriter
 import time
+import platform
+
+system = platform.system()
+
+if system == 'Darwin':
+	port = "/dev/tty.SLAB_USBtoUART"
+elif system == 'Linux':
+	# also valid
+	# /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+	port = "/dev/ttyUSB0"
+else:
+	raise Exception("unsupported OS")
 
 """
 accel/mag - 0x1f
@@ -73,7 +85,7 @@ if __name__ == "__main__":
 	imu = IMU(gs=4, dps=2000, verbose=True)
 
 	lidar = LDS01()
-	lidar.open("/dev/tty.SLAB_USBtoUART")  # is it always this? based on os?
+	lidar.open(port)
 	lidar.run(True)  # why true?
 
 	try:

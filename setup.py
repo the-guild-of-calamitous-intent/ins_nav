@@ -6,7 +6,7 @@
 
 from __future__ import print_function
 from setuptools import setup
-from ins_nav.version import __version__ as VERSION
+from ins_nav import __version__ as VERSION
 from build_utils import BuildCommand
 from build_utils import PublishCommand
 from build_utils import BinaryDistribution
@@ -24,7 +24,8 @@ setup(
 	name=PACKAGE_NAME,
 	version=VERSION,
 	description='A library to do inertial navigation',
-	long_description=open('readme.rst').read(),
+	long_description=open('readme.md').read(),
+	long_description_content_type="text/markdown",
 	url='http://github.com/MomsFriendlyRobotCompany/{}'.format(PACKAGE_NAME),
 	classifiers=[
 		'Development Status :: 4 - Beta',

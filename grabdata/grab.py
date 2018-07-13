@@ -10,6 +10,7 @@ import platform
 
 system = platform.system()
 
+# lidar serial port
 if system == 'Darwin':
     port = "/dev/tty.SLAB_USBtoUART"
 elif system == 'Linux':
@@ -20,6 +21,7 @@ else:
     raise Exception("unsupported OS")
 
 """
+nxp_imu
 accel/mag - 0x1f
 gyro - 0x21
 pi@r2d2 nxp $ sudo i2cdetect -y 1
@@ -33,48 +35,6 @@ pi@r2d2 nxp $ sudo i2cdetect -y 1
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 """
-
-
-# def imu():
-#     imu = IMU(gs=4, dps=2000, verbose=True)
-#     header = 67
-#     print('-'*header)
-#     print("| {:17} | {:20} | {:20} |".format("Accels [g's]", " Magnet [uT]", "Gyros [dps]"))
-#     print('-'*header)
-#     for _ in range(10):
-#         a, m, g = imu.get()
-#         print('| {:>5.2f} {:>5.2f} {:>5.2f} | {:>6.1f} {:>6.1f} {:>6.1f} | {:>6.1f} {:>6.1f} {:>6.1f} |'.format(
-#             a[0], a[1], a[2],
-#             m[0], m[1], m[2],
-#             g[0], g[1], g[2])
-#         )
-#         time.sleep(0.50)
-#     print('-'*header)
-#     print(' uT: micro Tesla')
-#     print('  g: gravity')
-#     print('dps: degrees per second')
-#     print('')
-
-
-# def ahrs():
-#     print('')
-#     imu = IMU(verbose=True)
-#     header = 47
-#     print('-'*header)
-#     print("| {:20} | {:20} |".format("Accels [g's]", "Orient(r,p,h) [deg]"))
-#     print('-'*header)
-#     for _ in range(10):
-#         a, m, g = imu.get()
-#         r, p, h = imu.getOrientation(a, m)
-#         print('| {:>6.1f} {:>6.1f} {:>6.1f} | {:>6.1f} {:>6.1f} {:>6.1f} |'.format(a[0], a[1], a[2], r, p, h))
-#         time.sleep(0.50)
-#     print('-'*header)
-#     print('  r: roll')
-#     print('  p: pitch')
-#     print('  h: heading')
-#     print('  g: gravity')
-#     print('deg: degree')
-#     print('')
 
 
 if __name__ == "__main__":
@@ -94,7 +54,7 @@ if __name__ == "__main__":
             a, m, g = imu.get()
             bag.push('accel', list(a))
             bag.push('mag', list(m))
-            bag.push('grav', list(g))
+            bag.push('gyro', list(g))
 
             pts = lidar.read()
             bag.push('lidar', pts)
@@ -110,6 +70,6 @@ if __name__ == "__main__":
         pass
 
     # bag.write('data-still.bag')
-    bag.write('data-moving.bag')
+    bag.write('data-moving-2.bag')
     lidar.close()
     print('Done ...')

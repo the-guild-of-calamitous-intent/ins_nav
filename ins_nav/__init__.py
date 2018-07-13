@@ -1,4 +1,6 @@
-#from .AHRS import AHRS
+from __future__ import print_function, absolute_import, division
+from ins_nav.AHRS import AHRS
+from ins_nav.compass import TiltCompensatedCompass
 
 __author__ = 'Kevin J. Walchko'
 __license__ = 'MIT'

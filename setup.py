@@ -44,6 +44,7 @@ setup(
     install_requires=[
         'simplejson',
         'build_utils',
+        'squaternion',
         'numpy'
     ],
     cmdclass={

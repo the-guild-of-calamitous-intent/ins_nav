@@ -23,7 +23,7 @@ class AHRS(object):
             q = quatNorm(*q)
         self.q = q
 
-    def updateAGM(self, a, m, g, beta, dt):
+    def updateAGM(self, a, m, g, beta, dt, degrees=True):
         """
         Internally, the current orientation (self.q) is tracked:
         q - current quaternion Quaternion(w,x,y,z)
@@ -34,12 +34,16 @@ class AHRS(object):
         g - gyro readings [rad/sec]
         beta - function of sensor noise
         dt - time step [sec]
+        degrees - if True, convert to rads/sec
 
         Return:
         q - current quaternion Quaternion(w,x,y,z)
         """
         q0, q1, q2, q3 = self.q
-        gx, gy, gz = (deg2rad(x) for x in g)
+        if degrees:
+            gx, gy, gz = (deg2rad(x) for x in g)
+        else:
+            gx, gy, gz = g
         ax, ay, az = a
         mx, my, mz = m
 
@@ -109,9 +113,13 @@ class AHRS(object):
 
         return self.q
 
-    def updateAG(self, q, a, g, beta, dt):
-        q0, q1, q2, q3 = q
-        gx, gy, gz = (deg2rad(x) for x in g)
+    def updateAG(self, a, g, beta, dt, degrees=True):
+        q0, q1, q2, q3 = self.q
+        # q0, q1, q2, q3 = q
+        if degrees:
+            gx, gy, gz = (deg2rad(x) for x in g)
+        else:
+            gx, gy, gz = g
         ax, ay, az = a
 
         # Rate of change of quaternion from gyroscope

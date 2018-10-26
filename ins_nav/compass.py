@@ -7,6 +7,7 @@
 
 from __future__ import print_function
 from __future__ import division
+import threading
 from math import cos, sin, pi, atan2, asin, sqrt
 from squaternion import Quaternion
 from squaternion import euler2quat

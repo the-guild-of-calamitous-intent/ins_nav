@@ -1,3 +1,0 @@
-simplejson
-build_utils
-numpy

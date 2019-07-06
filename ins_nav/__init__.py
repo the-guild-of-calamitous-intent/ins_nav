@@ -1,7 +1,10 @@
-from __future__ import print_function, absolute_import, division
+import sys
+if sys.version_info.major < 3:
+    print("*** ins_nav is written for python version > 3.6 ***")
+        
 from ins_nav.ahrs import AHRS
 from ins_nav.compass import TiltCompensatedCompass
 
 __author__ = 'Kevin J. Walchko'
 __license__ = 'MIT'
-__version__ = '0.5.0'
+__version__ = '0.5.1'

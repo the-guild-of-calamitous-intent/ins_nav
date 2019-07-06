@@ -4,16 +4,15 @@
 # see LICENSE for full details
 ##############################################
 
-from __future__ import print_function
 from setuptools import setup
-from ins_nav import __version__ as VERSION
 from build_utils import BuildCommand
 from build_utils import PublishCommand
 from build_utils import BinaryDistribution
 
-
+VERSION = get_pkg_version('ins_nav/__init__.py')
 PACKAGE_NAME = 'ins_nav'
 BuildCommand.pkg = PACKAGE_NAME
+BuildCommand.py2 = False
 PublishCommand.pkg = PACKAGE_NAME
 PublishCommand.version = VERSION
 
@@ -32,7 +31,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',

@@ -13,8 +13,8 @@ Can also double check with https://www.ngs.noaa.gov/NCAT/
 from transforms import ecef2llh, llh2ecef
 
 def test_transforms():
-	assert ecef2lla(4510731, 4510731, 0) == (0,   45.0000,  999.9564,)
-    assert lla2ecef(0, 45, 1000) == (4.5107*1e6,    4.5107*1e6, 0)
+	assert ecef2lla(4510731, 4510731, 0) == (0, 45.0000, 999.9564,)
+    assert lla2ecef(0, 45, 1000) == (4.5107*1e6, 4.5107*1e6, 0)
 
 def test_dummy():
 	assert True

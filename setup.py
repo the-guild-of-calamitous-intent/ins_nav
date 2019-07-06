@@ -8,6 +8,7 @@ from setuptools import setup
 from build_utils import BuildCommand
 from build_utils import PublishCommand
 from build_utils import BinaryDistribution
+from build_utils import get_pkg_version
 
 VERSION = get_pkg_version('ins_nav/__init__.py')
 PACKAGE_NAME = 'ins_nav'

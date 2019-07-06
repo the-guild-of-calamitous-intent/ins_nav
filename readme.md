@@ -17,26 +17,39 @@ measurements and error terms from your IMU and get the desired output.
 
 The suggested way to install this is via the `pip` command as follows::
 
-	pip install ins_nav
+```
+pip install ins_nav
+```
 
 ## Development
 
 To submit git pulls, clone the repository and set it up as follows::
 
-	git clone https://github.com/MomsFriendlyRobotCompany/ins_nav
-	cd ins_nav
-	pip install -r requirements
-	pip install -e .
+```
+git clone https://github.com/MomsFriendlyRobotCompany/ins_nav
+cd ins_nav
+pip install -e .
+```
 
 ## Usage
 
-TBD
+- `ins_nav.wgs84` contains a bunch of useful constants: semi-major axis, gravity, etc
+- `TiltCompensatedCompass` contains the mathematics of an IMU with accelerometers, gyroscopes, and magnetometers
+- `ins_nav.transforms` has a bunch of reference frame conversions: `ecef2llh`, `llh2ecef`, etc
+- `ins_nav.errors` has functions to esitmate the horizontal errors given an IMU's bias, mis-alignment, and random walk noise
+- `ins_nav.ahrs` creates an attitude and heading reference system (AHRS) using accelerometers, gyroscopes, and magnetometers
+
+## Todo
+
+- extended kalman filter
+- navigation equations
+- error model
 
 # Change Log
 
 ||||
 |------------|---------|-------------------------|
-| 2019-07-05 | 0.0.2   | reorg                   |
+| 2019-07-05 | 0.5.1   | cleanup and new functions|
 | 2017-07-07 | 0.0.1   | init                    |
 
 

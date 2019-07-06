@@ -84,7 +84,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    # bag.write('data-still.bag')
-    bag.write('data', timestamp=False)
+    bag.write('data-still', timestamp=False)
+    # bag.write('data', timestamp=False)
     # lidar.close()
     print('Done ...')

@@ -21,13 +21,13 @@ from transforms import llh2ecef
 #     b = RE*(1-FALTTENING)
 #     ep = (RE**2 - b**2)/(b**2)
 #     theta = atan2(z*RE, p*b)
-    
+
 #     l = atan2(y,x)
 #     L = atan2(z+ep*b*sin(theta)**3, p-E2*RE*cos(theta)**3)
 #     Re = RE/sqrt(1-E2*sin(L)**2)
 #     h = p/cos(L) - Re
 #     return (L, l, h,)
-    
+
 # def llh2ecef(lat, lon, H):
 #     # phi = lat [rads]
 #     # lambda = lon [rads]
@@ -188,7 +188,7 @@ def kf_eqns(t, x, u):
 #         self.eom = EOM()
 #
 #     def run(self):
-#         self.logger.info(str(self.name) + '[' + str(self.pid) + '] started on' + 
+#         self.logger.info(str(self.name) + '[' + str(self.pid) + '] started on' +
 #              str(self.host) + ':' + str(self.port) + ', Daemon: ' + str(self.daemon))
 #         sub_imu = zmq.Sub('imu', (self.host, self.port))
 #         sub_vo = zmq.Sub('vo', (self.host, self.port))
@@ -290,11 +290,11 @@ def kf_eqns(t, x, u):
 #             print('Navigation: shutting down ...')
 
 
-def main():
-    pass
-#     nav = NavigationServer()
-#     nav.run()
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     pass
+# #     nav = NavigationServer()
+# #     nav.run()
+#
+#
+# if __name__ == '__main__':
+#     main()

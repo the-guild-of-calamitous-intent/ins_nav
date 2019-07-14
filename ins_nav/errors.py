@@ -10,9 +10,9 @@ def calc_errors(bias, mis, arw, time):
     ARW = angular random walk [deg/sart(hour)]
     time = duration of data capture [sec]
     """
-    g = wgs84.G0
+    g = wgs84.gravity
     ebias = 0.5*g*bias*time**2
     emis = 0.5*g*sin(mis*pi/180)*time**2
     earw = 0.5*g*sin(arw*sqrt(time/3600))*time**2
-    
+
     return (ebias, emis, earw,)

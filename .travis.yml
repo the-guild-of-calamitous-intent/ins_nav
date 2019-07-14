@@ -4,7 +4,6 @@ language: python
 sudo: false
 
 python:
-    - "2.7"
     - "3.6"
 
 # command to install dependencies that require sudo
@@ -18,7 +17,6 @@ python:
 # install other libraries using pip
 install:
     - pip install -U pip setuptools
-    - pip install -r requirements.txt
     - pip install .
 
 # command to run tests

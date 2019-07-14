@@ -7,7 +7,7 @@
 
 from __future__ import print_function
 from __future__ import division
-import threading
+# import threading
 from math import cos, sin, pi, atan2, asin, sqrt
 from squaternion import Quaternion
 from squaternion import euler2quat
@@ -63,16 +63,12 @@ class TiltCompensatedCompass(object):
         """
 
         """
-        # accel, _, mag = self.imu.read(sensors=(IMU.ACCEL | IMU.MAG))  # why here?
-
-        # print(accel,  mag)
 
         try:
 
             mx, my, mz = self.normalize(*mag)
             # ax, ay, az = self.grav(*accel)
             ax, ay, az = self.normalize(*accel)
-            # print('accel {:.4f} {:.4f} {:.4f}\t\tmag {:.4f} {:.4f} {:.4f}'.format(ax, ay, az, mx, my, mz))
 
             pitch = asin(-ax)
 

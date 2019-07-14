@@ -1,3 +1,8 @@
+##############################################
+# The MIT License (MIT)
+# Copyright (c) 2016 Kevin Walchko
+# see LICENSE for full details
+##############################################
 import sys
 if sys.version_info.major < 3:
     print("*** ins_nav is written for python version > 3.6 ***")

@@ -1,4 +1,8 @@
-
+##############################################
+# The MIT License (MIT)
+# Copyright (c) 2016 Kevin Walchko
+# see LICENSE for full details
+##############################################
 from ins_nav.wgs84 import RE, FLATTENING, E2
 from math import sqrt, atan2, sin, cos
 import numpy as np

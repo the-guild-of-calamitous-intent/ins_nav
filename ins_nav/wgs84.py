@@ -1,3 +1,9 @@
+##############################################
+# The MIT License (MIT)
+# Copyright (c) 2016 Kevin Walchko
+# see LICENSE for full details
+##############################################
+
 RE = 6378137.0                 # Semi major axis of Earth [m]
 model = 'WGS84'
 FLATTENING = 0.00335281066475

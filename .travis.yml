@@ -3,6 +3,7 @@ arch:
     - amd64
     - arm64
 os: linux
+dist: bionic
 # using container based testing is faster, but you can't use sudo
 sudo: false
 

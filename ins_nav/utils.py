@@ -11,8 +11,12 @@ from __future__ import division
 # from math import degrees as rad2deg
 # from collections import namedtuple
 from math import sqrt
+from math import pi
 #
 # Quaternion = namedtuple('Quaternion', 'w x y z')
+
+RAD2DEG = 180/pi
+DEG2RAD = pi/180
 
 
 def normalize(x, y, z):

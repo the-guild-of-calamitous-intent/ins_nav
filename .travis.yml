@@ -16,7 +16,7 @@ python:
 
 # install other libraries using pip
 install:
-    - pip install -U pip setuptools wheel
+    - pip install -U pip setuptools wheel build_utils
     - pip install .
 
 # command to run tests

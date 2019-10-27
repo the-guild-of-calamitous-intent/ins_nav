@@ -7,7 +7,7 @@ os: linux
 sudo: false
 
 python:
-    - "3.6"
+    - "3.7"
 
 # command to install dependencies that require sudo
 # https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
@@ -19,8 +19,10 @@ python:
 
 # install other libraries using pip
 install:
-    - pip install -U pip setuptools wheel build_utils
-    - pip install .
+    - pip3 install -U pip setuptools wheel build_utils nose
+    - pip3 install -e .
 
 # command to run tests
-script: python -m nose -v -w tests test.py
+script:
+    - cd tests
+    - python3 -m nose -v test.py

@@ -1,29 +1,29 @@
-language: python
-arch:
-    - amd64
-    - arm64
-os: linux
-dist: bionic
-# using container based testing is faster, but you can't use sudo
-sudo: false
-
-python:
-    - "3.7"
-
-# command to install dependencies that require sudo
-# https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
-# addons:
-#     apt:
-#         packages:
-#             - pyserial
-#             - nose
-
-# install other libraries using pip
-install:
-    - pip3 install -U pip setuptools wheel build_utils nose
-    - pip3 install -e .
-
-# command to run tests
-script:
-    - cd tests
-    - python3 -m nose -v test.py
+# language: python
+# arch:
+#     - amd64
+#     - arm64
+# os: linux
+# dist: bionic
+# # using container based testing is faster, but you can't use sudo
+# sudo: false
+#
+# python:
+#     - "3.7"
+#
+# # command to install dependencies that require sudo
+# # https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+# # addons:
+# #     apt:
+# #         packages:
+# #             - pyserial
+# #             - nose
+#
+# # install other libraries using pip
+# install:
+#     - pip3 install -U pip setuptools wheel build_utils nose
+#     - pip3 install -e .
+#
+# # command to run tests
+# script:
+#     - cd tests
+#     - python3 -m nose -v test.py

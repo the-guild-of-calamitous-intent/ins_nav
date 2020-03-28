@@ -21,11 +21,17 @@ class NavigationFrame(namedtuple("NavigationFrame", "origin R type")):
     __slots__ = ()
 
     def ecef2nav(self, p_ecef):
-        return self.R.dot(p_ecef - self.origin)
+        """
+        pos_ecef: vector in ECEF to convert to a local navigation frame
+        """
+        r = self.R.T
+        return r.dot(p_ecef - self.origin)
 
     def nav2ecef(self, p_nav):
-        r = self.R.T
-        return r.dot(p_nav) + self.origin
+        """
+        pos_nav: vector in local navigation frame to convert to ECEF
+        """
+        return self.R.dot(p_nav) + self.origin
 
 
 class ENU(NavigationFrame):

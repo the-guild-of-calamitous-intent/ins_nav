@@ -73,6 +73,8 @@ turns are in the positive direction and is the standard vehicle roll-pitch-yaw f
 measurements formats like `-45 deg 12' 36.0 sec`, `45.21 W`, and `-45.21` easily
 - [nvector](https://www.navlab.net/nvector) has a lot of capability
 - [navpy](https://github.com/NavPy/NavPy) appears to be simple grad student work but code is well referenced (BSD)
+- [navigation](https://github.com/ngfgrant/navigation) does GPS navigation and way
+points
 
 # Todo
 

@@ -6,7 +6,7 @@
 from math import sqrt
 from math import pi
 from math import cos, sin
-import .wgs84
+import ins_nav.wgs84
 #
 # Quaternion = namedtuple('Quaternion', 'w x y z')
 

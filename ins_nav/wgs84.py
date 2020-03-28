@@ -6,7 +6,7 @@
 
 RE = 6378137.0                 # Semi major axis of Earth [m]
 model = 'WGS84'
-FLATTENING = 0.00335281066475
+FLATTENING = 0.00335281066475  # 1/298.257223563
 E2 = 0.00669437999014          # Eccentricity of Earth ellipsoid squared
 RATE = 7.2921157e-5            # Rotation rate of Earth [rad/s]
 SF = 1.2383e-3                 # Schuller frequency

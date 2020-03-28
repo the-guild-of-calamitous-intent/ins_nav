@@ -15,7 +15,7 @@ measurements and error terms from your IMU and get the desired output.
 
 # Install
 
-The suggested way to install this is via the `pip` command as follows::
+The suggested way to install this is via the `pip` command as follows:
 
 ```
 pip install ins_nav
@@ -23,31 +23,58 @@ pip install ins_nav
 
 ## Development
 
-To submit git pulls, clone the repository and set it up as follows::
+To submit git pulls, clone the repository and set it up as follows:
 
 ```
 git clone https://github.com/MomsFriendlyRobotCompany/ins_nav
 cd ins_nav
-pip install -e .
+poetry install
 ```
 
 ## Usage
 
 - `ins_nav.wgs84` contains a bunch of useful constants: semi-major axis, gravity, etc
+- `ins_nav.ahrs` creates an attitude and heading reference system (AHRS) using accelerometers, gyroscopes, and magnetometers
 - `TiltCompensatedCompass` contains the mathematics of an IMU with accelerometers, gyroscopes, and magnetometers
 - `ins_nav.transforms` has a bunch of reference frame conversions: `ecef2llh`, `llh2ecef`, etc
-- `ins_nav.errors` has functions to esitmate the horizontal errors given an IMU's bias, mis-alignment, and random walk noise
-- `ins_nav.ahrs` creates an attitude and heading reference system (AHRS) using accelerometers, gyroscopes, and magnetometers
+- `ins_nav.errors` has functions to estimate the horizontal errors given an IMU's bias, mis-alignment, and random walk noise
 
 ## Transforms
 
-* [ECEF: Earth-centered, Earth-fixed](https://en.wikipedia.org/wiki/ECEF)
-* [ECI: Earth-centered Inertial](https://en.wikipedia.org/wiki/Earth-centered_inertial)
+### Earth Centered Frames
+
+* [ECI: Earth-centered Inertial](https://en.wikipedia.org/wiki/Earth-centered_inertial) is an
+inertial frame where Newton's laws of motion apply. It has its origin at the center of the
+Earth with:
+    - x-axis in the direction of the vernal equinox
+    - z-axis is parallel to the rotation of the Earth
+    - y-axis completes the right-handed coordinate system
+* [ECEF: Earth-centered, Earth-fixed](https://en.wikipedia.org/wiki/ECEF) has the same origin
+as ECI, but rotates with the Earth and the x-axis points towards the zero/prime
+meridian. The ECEF frame rotates at 7.2921E-5 rads/sec with respect to the ECI
+frame
+* [LLA(H): Latitude, Longitude, Altitude(Height)](tbd) is similar to the ECEF frame, but
+is the frame historically used for navigation
+
+### Local Frames
+
 * [ENU: East North Up](https://en.wikipedia.org/wiki/Axes_conventions#Ground_reference_frames:_ENU_and_NED)
-* [NED: North East Down](https://en.wikipedia.org/wiki/North_east_down)
+a local navigation frame, where *up* and the z-axis align, but clockwise right turns
+are negative
+* [NED: North East Down](https://en.wikipedia.org/wiki/North_east_down) a local navigation
+frame, where *up* and the z-axis are opposite, but the direction of right (clockwise)
+turns are in the positive direction and is the standard vehicle roll-pitch-yaw frame
 
 
-## Todo
+
+# Other Good Navigation Libraries
+
+- [lat_lon_parser](https://pypi.org/project/lat-lon-parser/) allows you to convert between
+measurements formats like `-45 deg 12' 36.0 sec`, `45.21 W`, and `-45.21` easily
+- [nvector](https://www.navlab.net/nvector) has a lot of capability
+- [navpy](https://github.com/NavPy/NavPy) appears to be simple grad student work but code is well referenced (BSD)
+
+# Todo
 
 - extended kalman filter
 - navigation equations
@@ -55,15 +82,16 @@ pip install -e .
 
 # Change Log
 
-||||
+| Date       | Version | Notes                   |
 |------------|---------|-------------------------|
+| 2020-03-28 | 0.6.0   | moved to [poetry](https://python-poetry.org/) |
 | 2019-07-05 | 0.5.1   | cleanup and new functions|
-| 2017-07-07 | 0.0.1   | init                    |
+| 2017-07-07 | 0.0.1   | init                     |
 
 
 # The MIT License (MIT)
 
-Copyright (c) 2017 Kevin J. Walchko
+**Copyright (c) 2017 Kevin J. Walchko**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

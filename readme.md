@@ -56,7 +56,7 @@ frame
 * [LLA(H): Latitude, Longitude, Altitude(Height)](tbd) is similar to the ECEF frame, but
 is the frame historically used for navigation
 
-### Local Frames
+### Navigation Frames
 
 * [ENU: East North Up](https://en.wikipedia.org/wiki/Axes_conventions#Ground_reference_frames:_ENU_and_NED)
 a local navigation frame, where *up* and the z-axis align, but clockwise right turns

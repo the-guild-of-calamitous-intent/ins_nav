@@ -4,90 +4,64 @@
 # see LICENSE for full details
 ##############################################
 from ins_nav.wgs84 import RE, FLATTENING, E2
-from math import sqrt, atan2, sin, cos
 from ins_nav.utils import RAD2DEG, DEG2RAD
 import numpy as np
-from collections import namedtuple
+from math import sqrt, atan2, sin, cos
+# from collections import namedtuple
 from enum import IntFlag
 import attr
 
-FrameTypes = IntFlag("FrameTypes", "ned enu")
-# NavigationFrame = namedtuple("NavigationFrame", "origin R type")
 
-# class NavigationFrame(namedtuple("NavigationFrame", "origin R type")):
-#     """
-#     Base local navigation frame class. A user should not call this directly,
-#     rather derive new frames from it like a Wandering Azimuth frame class.
-#     """
-#     __slots__ = ()
-#
-#     def ecef2nav(self, p_ecef):
-#         """
-#         pos_ecef: vector in ECEF to convert to a local navigation frame
-#         """
-#         r = self.R.T
-#         return r.dot(p_ecef - self.origin)
-#
-#     def nav2ecef(self, p_nav):
-#         """
-#         pos_nav: vector in local navigation frame to convert to ECEF
-#         """
-#         return self.R.dot(p_nav) + self.origin
+FrameTypes = IntFlag("FrameTypes", "ned enu")
 
 @attr.s(slots=True, frozen=True)
 class NavigationFrame:
     """
     Base local navigation frame class. A user should not call this directly,
     rather derive new frames from it like a Wandering Azimuth frame class.
+
+    The assumption is, we always go between ECEF <-> Nav frame. The Nav frame
+    can be NED or ENU or something else derrived from NavigationFrame.
     """
     origin = attr.ib()
     R = attr.ib()
     type = attr.ib(init=False, default=None)
 
-    def ecef2nav(self, p_ecef):
+    # def ecef2nav(self, p_ecef):
+    def to_nav(self, p_ecef):
         """
         pos_ecef: vector in ECEF to convert to a local navigation frame
         """
         r = self.R.T
         return r.dot(p_ecef - self.origin)
 
-    def nav2ecef(self, p_nav):
+    # def nav2ecef(self, p_nav):
+    def to_ecef(self, p_nav):
         """
         pos_nav: vector in local navigation frame to convert to ECEF
         """
         return self.R.dot(p_nav) + self.origin
 
+@attr.s(slots=True, frozen=True)
 class ENU(NavigationFrame):
     """
+    East-North-Up
     reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
     """
     type = FrameTypes.enu
 
-    # __slots__ = ()
-    #
-    # def __new__(cls, o, r):
-    #     return cls.__bases__[0].__new__(cls, o, r, FrameTypes.enu)
-    #
-    # def __eq__(self, a):
-    #     return self.type == a.type
 
 @attr.s(slots=True, frozen=True)
 class NED(NavigationFrame):
     """
+    North-East-Down
+
     pos_ecef: vector in ECEF to convert
     origin_ecef: origin of local frame in ECEF
 
     reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
     """
     type = FrameTypes.ned
-
-    # __slots__ = ()
-    #
-    # def __new__(cls, o, r):
-    #     return cls.__bases__[0].__new__(cls, o, r, FrameTypes.ned)
-    #
-    # def __eq__(self, a):
-    #     return self.type == a.type
 
     @staticmethod
     def from_ll(lat, lon, alt):

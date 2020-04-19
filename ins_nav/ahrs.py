@@ -1,31 +1,25 @@
-#!/usr/bin/env python
 ##############################################
 # The MIT License (MIT)
 # Copyright (c) 2016 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-# from math import atan2, sin, cos, pi
+import attr
 from math import sqrt
-from ins_nav.utils import normalize
-from math import radians as deg2rad
+from ins_nav.utils import normalize3
+# from math import radians as deg2rad
 # from math import degrees as rad2deg
-from squaternion import Quaternion, quatNorm
-# from squaternion import Quaternion, euler2quat, quat2euler, quatNorm
+from squaternion import Quaternion
+from ins_nav.utils import RAD2DEG, DEG2RAD
 
-
+@attr.s(slots=True)
 class AHRS(object):
-    def __init__(self, q=None):
-        self.reset(q)
+    q = attr.ib(default=Quaternion())
 
     def reset(self, q=None):
         if q is None:
-            q = Quaternion(1, 0, 0, 0)
-        elif q:
-            q = quatNorm(*q)
-        self.q = q
+            self.q = Quaternion(1, 0, 0, 0)
+        else:
+            self.q = q.normalize
 
     def updateAGM(self, a, m, g, beta, dt, degrees=True):
         """
@@ -44,21 +38,21 @@ class AHRS(object):
         q - current quaternion Quaternion(w,x,y,z)
         """
         q0, q1, q2, q3 = self.q
+
         if degrees:
-            gx, gy, gz = (deg2rad(x) for x in g)
-        else:
-            gx, gy, gz = g
+            g = (x*DEG2RAD for x in g)
+        gx, gy, gz = g
         ax, ay, az = a
         mx, my, mz = m
 
         # Rate of change of quaternion from gyroscope
         qDot1 = 0.5 * (-q1 * gx - q2 * gy - q3 * gz)
-        qDot2 = 0.5 * (q0 * gx + q2 * gz - q3 * gy)
-        qDot3 = 0.5 * (q0 * gy - q1 * gz + q3 * gx)
-        qDot4 = 0.5 * (q0 * gz + q1 * gy - q2 * gx)
+        qDot2 = 0.5 * ( q0 * gx + q2 * gz - q3 * gy)
+        qDot3 = 0.5 * ( q0 * gy - q1 * gz + q3 * gx)
+        qDot4 = 0.5 * ( q0 * gz + q1 * gy - q2 * gx)
 
-        ax, ay, az = normalize(ax, ay, az)
-        mx, my, mz = normalize(mx, my, mz)
+        ax, ay, az = normalize3(ax, ay, az)
+        mx, my, mz = normalize3(mx, my, mz)
 
         # Auxiliary variables to avoid repeated arithmetic
         _2q0mx = 2.0 * q0 * mx
@@ -96,8 +90,8 @@ class AHRS(object):
         s2 = -_2q0 * (2.0 * q1q3 - _2q0q2 - ax) + _2q3 * (2.0 * q0q1 + _2q2q3 - ay) - 4.0 * q2 * (1 - 2.0 * q1q1 - 2.0 * q2q2 - az) + (-_4bx * q2 - _2bz * q0) * (_2bx * (0.5 - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * q1 + _2bz * q3) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * q0 - _4bz * q2) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5 - q1q1 - q2q2) - mz)
         s3 = _2q1 * (2.0 * q1q3 - _2q0q2 - ax) + _2q2 * (2.0 * q0q1 + _2q2q3 - ay) + (-_4bx * q3 + _2bz * q1) * (_2bx * (0.5 - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * q0 + _2bz * q2) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * q1 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5 - q1q1 - q2q2) - mz)
 
-        # s0, s1, s2, s3 = normalize_q((s0, s1, s2, s3))
-        s0, s1, s2, s3 = quatNorm(s0, s1, s2, s3)
+        print(">>",s0, s1, s2, s3)
+        s0, s1, s2, s3 = Quaternion(s0, s1, s2, s3).normalize
 
         # Apply feedback step
         qDot1 -= beta * s0
@@ -110,20 +104,17 @@ class AHRS(object):
         q2 += qDot3 * dt
         q3 += qDot4 * dt
 
-        # q0, q1, q2, q3 = normalize_q((q0, q1, q2, q3))
-        self.q = quatNorm(q0, q1, q2, q3)
-
-        # self.q = (q0, q1, q2, q3)
+        self.q = Quaternion(q0, q1, q2, q3).normalize
 
         return self.q
 
     def updateAG(self, a, g, beta, dt, degrees=True):
         q0, q1, q2, q3 = self.q
-        # q0, q1, q2, q3 = q
+
         if degrees:
-            gx, gy, gz = (deg2rad(x) for x in g)
-        else:
-            gx, gy, gz = g
+            g = (x*DEG2RAD for x in g)
+
+        gx, gy, gz = g
         ax, ay, az = a
 
         # Rate of change of quaternion from gyroscope
@@ -134,7 +125,7 @@ class AHRS(object):
 
         # Compute feedback only if accelerometer measurement valid (avoids NaN
         # in accelerometer normalisation)
-        ax, ay, az = normalize(ax, ay, az)
+        ax, ay, az = normalize3(ax, ay, az)
 
         # Auxiliary variables to avoid repeated arithmetic
         _2q0 = 2.0 * q0
@@ -157,8 +148,7 @@ class AHRS(object):
         s2 = 4.0 * q0q0 * q2 + _2q0 * ax + _4q2 * q3q3 - _2q3 * ay - _4q2 + _8q2 * q1q1 + _8q2 * q2q2 + _4q2 * az
         s3 = 4.0 * q1q1 * q3 - _2q1 * ax + 4.0 * q2q2 * q3 - _2q2 * ay
 
-        # s0, s1, s2, s3 = normalize_q((s0, s1, s2, s3))
-        s0, s1, s2, s3 = quatNorm(s0, s1, s2, s3)
+        s0, s1, s2, s3 = Quaternion(s0, s1, s2, s3).normalize
 
         # Apply feedback step
         qDot1 -= beta * s0
@@ -172,10 +162,7 @@ class AHRS(object):
         q2 += qDot3 * dt
         q3 += qDot4 * dt
 
-        # q0, q1, q2, q3 = normalize_q((q0, q1, q2, q3))
-
-        # self.q = (q0, q1, q2, q3)
-        self.q = quatNorm(q0, q1, q2, q3)
+        self.q = Quaternion(q0, q1, q2, q3).normalize
 
         return self.q
 

@@ -9,16 +9,40 @@ from ins_nav.utils import RAD2DEG, DEG2RAD
 import numpy as np
 from collections import namedtuple
 from enum import IntFlag
+import attr
 
-FrameTypes = IntFlag("FrameTypes", "NED ENU")
+FrameTypes = IntFlag("FrameTypes", "ned enu")
 # NavigationFrame = namedtuple("NavigationFrame", "origin R type")
 
-class NavigationFrame(namedtuple("NavigationFrame", "origin R type")):
+# class NavigationFrame(namedtuple("NavigationFrame", "origin R type")):
+#     """
+#     Base local navigation frame class. A user should not call this directly,
+#     rather derive new frames from it like a Wandering Azimuth frame class.
+#     """
+#     __slots__ = ()
+#
+#     def ecef2nav(self, p_ecef):
+#         """
+#         pos_ecef: vector in ECEF to convert to a local navigation frame
+#         """
+#         r = self.R.T
+#         return r.dot(p_ecef - self.origin)
+#
+#     def nav2ecef(self, p_nav):
+#         """
+#         pos_nav: vector in local navigation frame to convert to ECEF
+#         """
+#         return self.R.dot(p_nav) + self.origin
+
+@attr.s(slots=True, frozen=True)
+class NavigationFrame:
     """
     Base local navigation frame class. A user should not call this directly,
     rather derive new frames from it like a Wandering Azimuth frame class.
     """
-    __slots__ = ()
+    origin = attr.ib()
+    R = attr.ib()
+    type = attr.ib(init=False, default=None)
 
     def ecef2nav(self, p_ecef):
         """
@@ -33,20 +57,21 @@ class NavigationFrame(namedtuple("NavigationFrame", "origin R type")):
         """
         return self.R.dot(p_nav) + self.origin
 
-
 class ENU(NavigationFrame):
     """
     reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
     """
-    __slots__ = ()
+    type = FrameTypes.enu
 
-    def __new__(cls, o, r):
-        return cls.__bases__[0].__new__(cls, o, r, FrameTypes.ENU)
+    # __slots__ = ()
+    #
+    # def __new__(cls, o, r):
+    #     return cls.__bases__[0].__new__(cls, o, r, FrameTypes.enu)
+    #
+    # def __eq__(self, a):
+    #     return self.type == a.type
 
-    def __eq__(self, a):
-        return self.type == a.type
-
-
+@attr.s(slots=True, frozen=True)
 class NED(NavigationFrame):
     """
     pos_ecef: vector in ECEF to convert
@@ -54,13 +79,15 @@ class NED(NavigationFrame):
 
     reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
     """
-    __slots__ = ()
+    type = FrameTypes.ned
 
-    def __new__(cls, o, r):
-        return cls.__bases__[0].__new__(cls, o, r, FrameTypes.NED)
-
-    def __eq__(self, a):
-        return self.type == a.type
+    # __slots__ = ()
+    #
+    # def __new__(cls, o, r):
+    #     return cls.__bases__[0].__new__(cls, o, r, FrameTypes.ned)
+    #
+    # def __eq__(self, a):
+    #     return self.type == a.type
 
     @staticmethod
     def from_ll(lat, lon, alt):

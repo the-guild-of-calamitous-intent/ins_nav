@@ -41,6 +41,7 @@ def test_ned():
 
     assert norm(n.origin - nn.origin) < 1
     assert norm(n.R - nn.R) < 0.000001
+    assert n.type == nn.type
 
     # print(n.origin)
     # print(nn.origin)

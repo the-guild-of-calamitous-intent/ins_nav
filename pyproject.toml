@@ -30,9 +30,7 @@ python = ">=3.6"
 numpy = "*"
 simplejson = "*"
 squaternion = "*"
-pytest = "*"
-# pyserial = "^3.4"
-# colorama = "*"
+importlib-metadata = {version="*", python="<3.8"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

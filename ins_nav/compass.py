@@ -1,21 +1,18 @@
-#!/usr/bin/env python
 ##############################################
 # The MIT License (MIT)
 # Copyright (c) 2016 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-
-from __future__ import print_function
-from __future__ import division
-# import threading
+import attr
 from math import cos, sin, pi, atan2, asin, sqrt
 from squaternion import Quaternion
-from squaternion import euler2quat
-from squaternion import quat2euler
-# from quaternions import Quaternion
-# from imu import IMU
+from ins_nav.utils import RAD2DEG, DEG2RAD
+from ins_nav.utils import normalize3
+from enum import IntFlag
 
+Angle = IntFlag("Angle", "degrees radians quaternion")
 
+@attr.s(slots=True)
 class TiltCompensatedCompass(object):
     """
     A tilt compensated compass is basically just taking the magnetometer
@@ -27,37 +24,17 @@ class TiltCompensatedCompass(object):
     Also, the in sensor inputs are expected to have already been adjusted
     for biases and other issues (hard/soft iron errors).
     """
-    DEGREES = 1
-    RADIANS = 2
-    QUATERNIONS = 4
-    # quaternion = Quaternion(1, 0, 0, 0)  # why?
 
-    def __init__(self, angle_units=DEGREES):
-        """
-        angle_units: DEGREES, RADIANS, QUATERNIONS
-        quaternion: default is (1,0,0,0), but you can set it to something else
-        """
-        # Mx points to North
-        # self.imu = imu
-        self.angle_units = angle_units
+    angle_units = attr.ib(default=Angle.degrees)
 
-    @staticmethod
-    def normalize(a, b, c):
-        m = sqrt(a**2 + b**2 + c**2)
-
-        if m < 1e-6:
-            raise ZeroDivisionError('AHRS::normalize(): div by {}'.format(m))
-
-        a /= m
-        b /= m
-        c /= m
-
-        return (a, b, c)
-
-    # @staticmethod
-    # def euler2quat(roll, pitch, yaw):
-    #     # not sure i trust this
-    #     return euler2quat((roll, pitch, yaw))
+    # def __init__(self, angle_units=Angle.degrees):
+    #     """
+    #     angle_units: degrees, radians, quaternion
+    #     quaternion: default is (1,0,0,0), but you can set it to something else
+    #     """
+    #     # Mx points to North
+    #     # self.imu = imu
+    #     self.angle_units = angle_units
 
     def compensate(self, accel, mag):
         """
@@ -65,10 +42,8 @@ class TiltCompensatedCompass(object):
         """
 
         try:
-
-            mx, my, mz = self.normalize(*mag)
-            # ax, ay, az = self.grav(*accel)
-            ax, ay, az = self.normalize(*accel)
+            mx, my, mz = normalize3(*mag)
+            ax, ay, az = normalize3(*accel)
 
             pitch = asin(-ax)
 
@@ -88,18 +63,18 @@ class TiltCompensatedCompass(object):
             elif heading < 0:
                 heading += 2*pi
 
-            if self.angle_units == self.DEGREES:
-                roll    *= 180/pi
-                pitch   *= 180/pi
-                heading *= 180/pi
-            elif self.angle_units == self.QUATERNIONS:
-                return euler2quat(roll, pitch, heading)
+            if self.angle_units == Angle.degrees:
+                roll    *= RAD2DEG
+                pitch   *= RAD2DEG
+                heading *= RAD2DEG
+            elif self.angle_units == Angle.quaternion:
+                return Quaternion.from_euler(roll, pitch, heading)
 
             return (roll, pitch, heading,)
 
         except ZeroDivisionError as e:
             print('Error', e)
-            if self.angle_units == self.QUATERNIONS:
+            if self.angle_units == Angle.quaternion:
                 return Quaternion(1, 0, 0, 0)
             else:
                 return (0.0, 0.0, 0.0,)

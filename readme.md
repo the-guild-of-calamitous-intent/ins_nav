@@ -2,6 +2,7 @@
 
 # ins_nav
 
+[![Actions Status](https://github.com/MomsFriendlyRobotCompany/ins_nav/workflows/pytest/badge.svg)](https://github.com/MomsFriendlyRobotCompany/ins_nav/actions)
 ![PyPI - License](https://img.shields.io/pypi/l/ins_nav.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ins_nav.svg)
 ![PyPI - Format](https://img.shields.io/pypi/format/ins_nav.svg)

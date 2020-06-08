@@ -9,3 +9,4 @@ dist
 build
 __pychache__
 .ipynb_checkpoints
+*.lock

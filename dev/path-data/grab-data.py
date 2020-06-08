@@ -13,18 +13,26 @@ import imageio
 from colorama import Fore
 import imageio
 import picamera
-
+import io
 from threading import Thread
 
-bag = BagIt(Pickle)
-imu = IMU(gs=2, dps=2000, verbose=True)
-rate = Rate(10)
 
 class ThreadedCamera:
-    def __init__(self):
-        res = (1024, 768)
+    """
+    c = ThreadedCamera((640,480))
+    c.start()       # starts internal loop
+    frame = c.get() # numpy array
+    c.stop()        # stops internal loop
+    c.join()        # gathers back up the thread
+    """
+    def __init__(self, resolution=None, fps=30):
+        if resolution is None:
+            res = (1024, 768) # col, row
+        else:
+            res = resolution
+
         self.camera = PiCamera()
-        self.camera.framerate = 24
+        self.camera.framerate = fps
         self.camera.resolution = res
         self.output = picamera.array.PiRGBArray(self.camera, size=res)
         self.stream = self.camera.capture_continuous(
@@ -33,7 +41,8 @@ class ThreadedCamera:
             use_video_port=True)
         # time.sleep(2) # camera warm-up
         self.frame = None
-        self.run = True
+        self.run = False
+        # self.bytesio = io.BytesIO()
 
     def __del__(self):
         self.run = False
@@ -41,24 +50,32 @@ class ThreadedCamera:
         self.output.close()
 
     def start(self):
+        """Starts the internal loop in a thread"""
+        self.run = True
         self.ps = Thread(target=self.thread_func, args=())
         self.ps.daemon = True
         self.ps.start()
         return self
 
     def stop(self):
+        """Stops the camera"""
         self.run = False
         time.sleep(0.5)
 
     def get(self):
+        """Returns image frame"""
         return self.frame
 
     def thread_func(self):
-        print(f">> self.run: {self.run}")
+        """Internal function, do not call"""
+        # print(f">> self.run: {self.run}")
+        bytesio = io.BytesIO()
+        # im = imageio.Image()
 
         for f in self.stream:
             self.frame = f.array.copy()
-            # print(f">> {self.frame.shape}")
+            print(f">> thread: {self.frame.shape}")
+            # ff = imageio.imwrite(bytesio, self.frame, format='png')
             self.output.truncate(0)
             if not self.run:
                 self.stream.close()
@@ -79,6 +96,12 @@ class ThreadedCamera:
             if self.ps.is_alive():
                 self.ps.terminate()
         self.ps = None
+
+
+bag = BagIt(Pickle)
+imu = IMU(gs=2, dps=2000, verbose=True)
+rate = Rate(1)
+
 
 camera = ThreadedCamera()
 camera.start()

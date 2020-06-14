@@ -1,0 +1,2 @@
+test-complex.pickle.bag.gz filter=lfs diff=lfs merge=lfs -text
+test-simple.pickle.bag.gz filter=lfs diff=lfs merge=lfs -text

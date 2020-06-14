@@ -3,9 +3,10 @@ import cv2
 import numpy as np
 from the_collector import BagIt, Pickle
 
-
+# bagfile = "test-complex.pickle.bag"
+bagfile = "test-simple.pickle.bag"
 bag = BagIt(Pickle)
-data = bag.read("test.pickle.bag")
+data = bag.read(bagfile)
 
 # print(data.keys())
 # print(data["imu"][0])

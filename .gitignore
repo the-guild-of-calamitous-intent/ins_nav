@@ -11,3 +11,4 @@ __pychache__
 .ipynb_checkpoints
 *.lock
 test.png
+.pytest_cache

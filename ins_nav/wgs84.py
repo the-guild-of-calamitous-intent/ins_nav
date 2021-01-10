@@ -12,7 +12,17 @@ RATE = 7.2921157e-5            # Rotation rate of Earth [rad/s]
 SF = 1.2383e-3                 # Schuller frequency
 MU = 3.986004418e14            # Gravitational parameter of Earth
 G0 = 9.7803253359              # Gravity [m/sec^2]
-gravity = 9.81                 # Grabity [m/sec^2]
+# gravity = 9.81                 # Grabity [m/sec^2]
+
+def gravity(lat):
+    """
+    Based off the Oxford reference for the gravity formula at sealevel.
+    https://www.oxfordreference.com/view/10.1093/oi/authority.20110803100007626
+
+    lat: latitude [decimal deg], North is posative and South is negative
+    """
+    lat *= pi/180
+    return G0*(1 + 0.0053024*sin(lat)**2 - 0.0000058*sin(2*lat)**2)
 
 # value?
 # class WGS84:

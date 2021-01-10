@@ -8,8 +8,8 @@ from math import pi
 from math import cos, sin
 import ins_nav.wgs84
 
-RAD2DEG = 180/pi
-DEG2RAD = pi/180
+rad2deg = 180/pi
+deg2rad = pi/180
 FT2M = 0.3048   # feet to meters
 MI2M = 1609.34  # miles to meters
 

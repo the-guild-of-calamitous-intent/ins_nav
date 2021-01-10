@@ -6,7 +6,7 @@
 import attr
 from math import cos, sin, pi, atan2, asin, sqrt
 from squaternion import Quaternion
-from ins_nav.utils import RAD2DEG, DEG2RAD
+from ins_nav.utils import rad2deg
 from ins_nav.utils import normalize3
 from enum import IntFlag
 
@@ -64,9 +64,9 @@ class TiltCompensatedCompass(object):
                 heading += 2*pi
 
             if self.angle_units == Angle.degrees:
-                roll    *= RAD2DEG
-                pitch   *= RAD2DEG
-                heading *= RAD2DEG
+                roll    *= rad2deg
+                pitch   *= rad2deg
+                heading *= rad2deg
             elif self.angle_units == Angle.quaternion:
                 return Quaternion.from_euler(roll, pitch, heading)
 

@@ -4,8 +4,8 @@
 # see LICENSE for full details
 ##############################################
 
-from ins_nav.ahrs import AHRS
-from ins_nav.compass import TiltCompensatedCompass
+# from ins_nav.ahrs import AHRS
+# from ins_nav.compass import TiltCompensatedCompass
 
 try:
     from importlib.metadata import version # type: ignore

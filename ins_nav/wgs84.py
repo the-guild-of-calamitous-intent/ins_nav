@@ -4,6 +4,8 @@
 # see LICENSE for full details
 ##############################################
 
+from math import sin
+
 RE = 6378137.0                 # Semi major axis of Earth [m]
 model = 'WGS84'
 FLATTENING = 0.00335281066475  # 1/298.257223563
@@ -18,6 +20,9 @@ def gravity(lat):
     """
     Based off the Oxford reference for the gravity formula at sealevel.
     https://www.oxfordreference.com/view/10.1093/oi/authority.20110803100007626
+
+    Also:
+    https://en.wikipedia.org/wiki/Gravity_of_Earth
 
     lat: latitude [decimal deg], North is posative and South is negative
     """

@@ -8,137 +8,9 @@ from ins_nav.utils import RAD2DEG, DEG2RAD
 import numpy as np
 from math import sqrt, atan2, sin, cos
 # from collections import namedtuple
-from enum import IntFlag
-import attr
+# from enum import IntFlag
+# import attr
 
-
-FrameTypes = IntFlag("FrameTypes", "ned enu")
-
-@attr.s(slots=True, frozen=True)
-class NavigationFrame:
-    """
-    Base local navigation frame class. A user should not call this directly,
-    rather derive new frames from it like a Wandering Azimuth frame class.
-
-    The assumption is, we always go between ECEF <-> Nav frame. The Nav frame
-    can be NED or ENU or something else derrived from NavigationFrame.
-    """
-    origin = attr.ib()
-    R = attr.ib()
-    type = attr.ib(init=False, default=None)
-
-    # def ecef2nav(self, p_ecef):
-    def to_nav(self, p_ecef):
-        """
-        pos_ecef: vector in ECEF to convert to a local navigation frame
-        """
-        r = self.R.T
-        return r.dot(p_ecef - self.origin)
-
-    # def nav2ecef(self, p_nav):
-    def to_ecef(self, p_nav):
-        """
-        pos_nav: vector in local navigation frame to convert to ECEF
-        """
-        return self.R.dot(p_nav) + self.origin
-
-@attr.s(slots=True, frozen=True)
-class ENU(NavigationFrame):
-    """
-    East-North-Up
-    reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
-    """
-    type = FrameTypes.enu
-
-
-@attr.s(slots=True, frozen=True)
-class NED(NavigationFrame):
-    """
-    North-East-Down
-
-    pos_ecef: vector in ECEF to convert
-    origin_ecef: origin of local frame in ECEF
-
-    reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
-    """
-    type = FrameTypes.ned
-
-    @staticmethod
-    def from_ll(lat, lon, alt):
-        """
-        Creates a local navigation from lat, lon, alt [deg,deg,m]
-        """
-        o_ecef = llh2ecef(lat, lon, alt)
-
-        lat = DEG2RAD*lat
-        lon = DEG2RAD*lon
-
-        R = np.array(
-            [
-                [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
-                [-np.sin(lon), np.cos(lon), 0],
-                [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
-            ]
-        )
-
-        return NED(o_ecef, R)
-
-    @staticmethod
-    def from_ecef(x, y, z):
-        """
-        Creates a local navigation frame from (x,y,z) [m,m,m] in ECEF frame
-        """
-        o_ecef = np.array([x,y,z])
-
-        lat, lon, _ = ecef2llh(x,y,z)
-
-        lat = DEG2RAD*lat
-        lon = DEG2RAD*lon
-
-        R = np.array(
-            [
-                [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
-                [-np.sin(lon), np.cos(lon), 0],
-                [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
-            ]
-        )
-
-        return NED(o_ecef, R)
-
-
-
-# def ecef2enu():
-#     """
-#     reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
-#     """
-#     pass
-#
-# def ecef2ned(pos_ecef, llh_origin):
-#     """
-#     pos_ecef: vector in ECEF to convert
-#     origin_ecef: origin of local frame in ECEF
-#
-#     reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
-#     """
-#
-#     lat = DEG2RAD*ned_origin[0]
-#     lon = DEG2RAD*ned_origin[1]
-#
-#     R = np.array(
-#         [
-#             [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
-#             [-np.sin(lon), np.cos(lon), 0],
-#             [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
-#         ]
-#     )
-#
-#     ned_origin_ecef = llh2ecef(ned_origin)
-#
-#     ned = R.dot(pos_ecef - ned_origin_ecef)
-#
-#     return ned
-
-# New ------------------------------------------------------------------------------
 def ecef2llh(x, y, z):
     """
     ecef: Earth Centered Earth Fixed in [m, m, m]
@@ -192,4 +64,132 @@ def llh2DCM(lat, lon, h, w):
     Ceg = np.array([[-sL*cl, -sL*sl, cL], [-sl, cl, 0], [-cL*cl, -cL*sl, -sL]])
     return Cgn.dot(Ceg)
 
+
+# FrameTypes = IntFlag("FrameTypes", "ned enu")
+
+# @attr.s(slots=True, frozen=True)
+# class NavigationFrame:
+#     """
+#     Base local navigation frame class. A user should not call this directly,
+#     rather derive new frames from it like a Wandering Azimuth frame class.
+#
+#     The assumption is, we always go between ECEF <-> Nav frame. The Nav frame
+#     can be NED or ENU or something else derrived from NavigationFrame.
+#     """
+#     origin = attr.ib()
+#     R = attr.ib()
+#     type = attr.ib(init=False, default=None)
+#
+#     # def ecef2nav(self, p_ecef):
+#     def to_nav(self, p_ecef):
+#         """
+#         pos_ecef: vector in ECEF to convert to a local navigation frame
+#         """
+#         r = self.R.T
+#         return r.dot(p_ecef - self.origin)
+#
+#     # def nav2ecef(self, p_nav):
+#     def to_ecef(self, p_nav):
+#         """
+#         pos_nav: vector in local navigation frame to convert to ECEF
+#         """
+#         return self.R.dot(p_nav) + self.origin
+#
+# @attr.s(slots=True, frozen=True)
+# class ENU(NavigationFrame):
+#     """
+#     East-North-Up
+#     reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
+#     """
+#     type = FrameTypes.enu
+#
+#
+# @attr.s(slots=True, frozen=True)
+# class NED(NavigationFrame):
+#     """
+#     North-East-Down
+#
+#     pos_ecef: vector in ECEF to convert
+#     origin_ecef: origin of local frame in ECEF
+#
+#     reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+#     """
+#     type = FrameTypes.ned
+#
+#     @staticmethod
+#     def from_ll(lat, lon, alt):
+#         """
+#         Creates a local navigation from lat, lon, alt [deg,deg,m]
+#         """
+#         o_ecef = llh2ecef(lat, lon, alt)
+#
+#         lat = DEG2RAD*lat
+#         lon = DEG2RAD*lon
+#
+#         R = np.array(
+#             [
+#                 [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
+#                 [-np.sin(lon), np.cos(lon), 0],
+#                 [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
+#             ]
+#         )
+#
+#         return NED(o_ecef, R)
+#
+#     @staticmethod
+#     def from_ecef(x, y, z):
+#         """
+#         Creates a local navigation frame from (x,y,z) [m,m,m] in ECEF frame
+#         """
+#         o_ecef = np.array([x,y,z])
+#
+#         lat, lon, _ = ecef2llh(x,y,z)
+#
+#         lat = DEG2RAD*lat
+#         lon = DEG2RAD*lon
+#
+#         R = np.array(
+#             [
+#                 [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
+#                 [-np.sin(lon), np.cos(lon), 0],
+#                 [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
+#             ]
+#         )
+#
+#         return NED(o_ecef, R)
+
+
+
+# def ecef2enu():
+#     """
+#     reference: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion#From_ECEF_to_ENU
+#     """
+#     pass
+#
+# def ecef2ned(pos_ecef, llh_origin):
+#     """
+#     pos_ecef: vector in ECEF to convert
+#     origin_ecef: origin of local frame in ECEF
+#
+#     reference: https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+#     """
+#
+#     lat = DEG2RAD*ned_origin[0]
+#     lon = DEG2RAD*ned_origin[1]
+#
+#     R = np.array(
+#         [
+#             [-np.sin(lat)*np.cos(lon), -np.sin(lat)*np.sin(lon), np.cos(lat)],
+#             [-np.sin(lon), np.cos(lon), 0],
+#             [-np.cos(lat)*np.cos(lon), -np.cos(lat)*np.sin(lon), -np.sin(lat)]
+#         ]
+#     )
+#
+#     ned_origin_ecef = llh2ecef(ned_origin)
+#
+#     ned = R.dot(pos_ecef - ned_origin_ecef)
+#
+#     return ned
+
+# New ------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------

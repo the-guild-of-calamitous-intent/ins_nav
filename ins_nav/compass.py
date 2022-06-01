@@ -3,7 +3,7 @@
 # Copyright (c) 2016 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-import attr
+# import attr
 from math import cos, sin, pi, atan2, asin, sqrt
 from squaternion import Quaternion
 from ins_nav.utils import rad2deg
@@ -12,7 +12,7 @@ from enum import IntFlag
 
 Angle = IntFlag("Angle", "degrees radians quaternion")
 
-@attr.s(slots=True)
+# @attr.s(slots=True)
 class TiltCompensatedCompass(object):
     """
     A tilt compensated compass is basically just taking the magnetometer
@@ -25,16 +25,14 @@ class TiltCompensatedCompass(object):
     for biases and other issues (hard/soft iron errors).
     """
 
-    angle_units = attr.ib(default=Angle.degrees)
+    # angle_units = attr.ib(default=Angle.degrees)
 
-    # def __init__(self, angle_units=Angle.degrees):
-    #     """
-    #     angle_units: degrees, radians, quaternion
-    #     quaternion: default is (1,0,0,0), but you can set it to something else
-    #     """
-    #     # Mx points to North
-    #     # self.imu = imu
-    #     self.angle_units = angle_units
+    def __init__(self, angle_units=Angle.degrees):
+        """
+        angle_units: degrees, radians, quaternion
+        quaternion: default is (1,0,0,0), but you can set it to something else
+        """
+        self.angle_units = angle_units
 
     def compensate(self, accel, mag):
         """

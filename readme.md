@@ -38,9 +38,8 @@ poetry install
 - `ins_nav.ahrs` creates an attitude and heading reference system (AHRS) using accelerometers, gyroscopes, and magnetometers
 - `TiltCompensatedCompass` contains the mathematics of an IMU with accelerometers, gyroscopes, and magnetometers
 - `ins_nav.transforms` has a bunch of reference frame conversions: `ecef2llh`, `llh2ecef`, etc
-- `ins_nav.errors` has functions to estimate the horizontal errors given an IMU's bias, mis-alignment, and random walk noise
 
-## Transforms
+## Transforms (in work)
 
 ### Earth Centered Frames
 

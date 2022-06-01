@@ -11,3 +11,6 @@
 #     assert r == 0.0
 #     assert p == 0.0
 #     assert h == 45.0
+
+def test_dummy():
+    assert True

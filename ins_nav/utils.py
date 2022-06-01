@@ -5,7 +5,7 @@
 ##############################################
 from math import sqrt
 from math import pi
-from math import cos, sin
+# from math import cos, sin
 import ins_nav.wgs84
 
 RAD2DEG = 180/pi

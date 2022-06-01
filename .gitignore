@@ -12,3 +12,4 @@ __pychache__
 *.lock
 test.png
 .pytest_cache
+archive

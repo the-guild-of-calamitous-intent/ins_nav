@@ -12,3 +12,7 @@
 #     # these fail!!! FIXMEs
 #     # c.updateAGM(a,g,m,b,dt)
 #     # c.updateAG(a,g,b,dt)
+
+
+def test_dummy():
+    assert True

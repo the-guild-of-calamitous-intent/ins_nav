@@ -4,7 +4,7 @@
 # see LICENSE for full details
 ##############################################
 
-from math import sin
+from math import sin, pi
 
 RE = 6378137.0                 # Semi major axis of Earth [m]
 model = 'WGS84'

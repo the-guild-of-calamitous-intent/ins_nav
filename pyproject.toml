@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ins_nav"
-version = "0.6.0"
+version = "0.6.1"
 description = "A library to do inertial navigation"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"

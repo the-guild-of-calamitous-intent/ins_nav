@@ -1,3 +1,8 @@
+##############################################
+# The MIT License (MIT)
+# Copyright (c) 2016 Kevin Walchko
+# see LICENSE for full details
+##############################################
 import numpy as np
 from numpy.linalg import norm
 from squaternion import Quaternion
@@ -5,6 +10,11 @@ from math import sqrt
 
 
 class Madgwick:
+    """
+    MARG filter
+    ref: Madgwick, An efficient orientation filter for inertial
+        and inertial/magnetic sensor arrays
+    """
     def __init__(self, B, Z):
         self.wb = np.array([0,0,0])
         self.q = Quaternion()

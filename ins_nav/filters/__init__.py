@@ -1,2 +1,2 @@
-from .mahony import Mohony
+from .mahony import Mahony
 from .madgwick import Madgwick

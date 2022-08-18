@@ -38,6 +38,14 @@ class NavigationFrame:
         self.lonr = llref[1]*deg2rad
         self.ecefr = self.__llh2ecef(llref)
 
+        # this matrix converts ned <-> enu
+        # notice R == R.T, so no need to transpose it
+        self.R = np.array([
+            [0,1,0],
+            [1,0,0],
+            [0,0,-1]
+        ])
+
     def __llh2ecef(self, lla):
         """
         Geodetic coordinates are a type of curvilinear orthogonal coordinate
@@ -163,4 +171,10 @@ class NavigationFrame:
         ])
 
         return r.dot(ned) + ref
+
+    def ned2enu(self, ned):
+        return self.R.dot(ned)
+
+    def enu2ned(self, enu):
+        return self.R.dot(enu)
 

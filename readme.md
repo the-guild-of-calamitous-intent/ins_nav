@@ -14,34 +14,7 @@ measurements and error terms from your IMU and get the desired output.
 
 **This is still under heavy development**
 
-# Install
-
-The suggested way to install this is via the `pip` command as follows:
-
-```
-pip install ins_nav
-```
-
-## Development
-
-To submit git pulls, clone the repository and set it up as follows:
-
-```
-git clone https://github.com/MomsFriendlyRobotCompany/ins_nav
-cd ins_nav
-poetry install
-```
-
-## Usage
-
-- `ins_nav.wgs84` contains a bunch of useful constants: semi-major axis, gravity, etc
-- `ins_nav.ahrs` creates an attitude and heading reference system (AHRS) using accelerometers, gyroscopes, and magnetometers
-- `TiltCompensatedCompass` contains the mathematics of an IMU with accelerometers, gyroscopes, and magnetometers
-- `ins_nav.transforms` has a bunch of reference frame conversions: `ecef2llh`, `llh2ecef`, etc
-
-## Transforms (in work)
-
-### Earth Centered Frames
+## Reference Frames
 
 * [ECI: Earth-centered Inertial](https://en.wikipedia.org/wiki/Earth-centered_inertial) is an
 inertial frame where Newton's laws of motion apply. It has its origin at the center of the
@@ -54,9 +27,38 @@ as ECI, but rotates with the Earth and the x-axis points towards the zero/prime
 meridian. The ECEF frame rotates at 7.2921E-5 rads/sec with respect to the ECI
 frame
 * [LLA(H): Latitude, Longitude, Altitude(Height)](tbd) is similar to the ECEF frame, but
-is the frame historically used for navigation
+is the frame historically used for GPS navigation
 
-### Navigation Frames
+## WGS84
+
+```python
+wgs = WGS84()
+
+# here are a bunch of useful constants in WGS84 class
+wgs.rf = 298.257223563
+wgs.f = 1/self.rf
+wgs.a = 6378137.0
+wgs.b = self.a - self.a * self.f
+wgs.e = np.sqrt(1 - (self.b ** 2 / self.a ** 2))
+wgs.r = (2*self.a + self.b) / 3
+wgs.rotation_period = 23*3600 + 56*60 + 4.09053
+wgs.rate = 7.2921157e-5  # Rotation rate of Earth [rad/s]
+wgs.sf = 1.2383e-3       # Schuller frequency
+
+# translate ecef(x,y,z) <=> llh(lat,lon,alt)
+wgs.ecef2llh(loc)
+wgs.llh2ecef(loc)
+
+wgs.gravity(lat)   # gravity changes by latitude[deg]
+wgs.radius(lat)    # Earth's radius changes by latitude[deg]
+wgs.haversine(a,b) # calculates distance between locations a and b
+```
+
+## Navigation Frames
+
+While ECEF can be used to navigate the globe, often, you only need to travel 100's of meters
+or kilometers. Thus a local navigational frame that is tangental to the curvature of the
+Earth is more useful (and intuitive). Two common ones are:
 
 * [ENU: East North Up](https://en.wikipedia.org/wiki/Axes_conventions#Ground_reference_frames:_ENU_and_NED)
 a local navigation frame, where *up* and the z-axis align, but clockwise right turns
@@ -65,7 +67,20 @@ are negative
 frame, where *up* and the z-axis are opposite, but the direction of right (clockwise)
 turns are in the positive direction and is the standard vehicle roll-pitch-yaw frame
 
+```python
+ref = (40,-90,100) # origin of local frame (lat[deg], lon[deg], altitude[m])
+frame = NavigationalFrame(ref)
 
+# allof these will calculate position relative to your local
+# frame origin
+loc = [x,y,z]
+frame.ecef2ned(loc)
+frame.ecef2enu(loc)
+frame.ned2ecef(loc)
+frame.enu2ecef(loc)
+frame.enu2ned(loc)
+frame.ned2enu(loc)
+```
 
 # Other Good Navigation Libraries
 
@@ -76,24 +91,9 @@ measurements formats like `-45 deg 12' 36.0 sec`, `45.21 W`, and `-45.21` easily
 - [navigation](https://github.com/ngfgrant/navigation) does GPS navigation and way
 points
 
-# Todo
-
-- extended kalman filter
-- navigation equations
-- error model
-
-# Change Log
-
-| Date       | Version | Notes                   |
-|------------|---------|-------------------------|
-| 2020-03-28 | 0.6.0   | moved to [poetry](https://python-poetry.org/) |
-| 2019-07-05 | 0.5.1   | cleanup and new functions|
-| 2017-07-07 | 0.0.1   | init                     |
-
-
 # The MIT License (MIT)
 
-**Copyright (c) 2017 Kevin J. Walchko**
+**Copyright (c) 2016 Kevin J. Walchko**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

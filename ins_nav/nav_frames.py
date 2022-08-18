@@ -9,6 +9,8 @@ import numpy as np
 from numpy.linalg import norm
 from numpy import arcsin, cos, sin, pi, sqrt, arcsin as asin, arctan2
 
+deg2rad = np.pi/180
+rad2deg = 180/np.pi
 
 class NavigationFrame:
     """

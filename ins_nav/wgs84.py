@@ -9,6 +9,10 @@ import numpy as np
 from numpy.linalg import norm
 from numpy import arcsin, cos, sin, pi, sqrt, arcsin as asin, arctan2
 
+
+deg2rad = np.pi/180
+rad2deg = 180/np.pi
+
 # RE = 6378137.0                 # Semi major axis of Earth [m]
 # model = 'WGS84'
 # FLATTENING = 0.00335281066475  # 1/298.257223563
@@ -132,8 +136,8 @@ class WGS84:
         else:
             H = lla[2]
 
-        e2 = wgs.e**2
-        n = wgs.a / sqrt(1.0 - e2 * sin(lat)**2)
+        e2 = self.e**2
+        n = self.a / sqrt(1.0 - e2 * sin(lat)**2)
 
         x = (n + H) * cos(lat) * cos(lon)
         y = (n + H) * cos(lat) * sin(lon)

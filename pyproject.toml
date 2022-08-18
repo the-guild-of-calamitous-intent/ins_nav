@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ins_nav"
-version = "0.6.1"
+version = "0.6.2"
 description = "A library to do inertial navigation"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
@@ -31,5 +31,5 @@ squaternion = "*"
 pytest = "*"
 
 [build-system]
-requires = ["poetry>=1.0.0"]
+requires = ["poetry>=1.1.0"]
 build-backend = "poetry.masonry.api"

@@ -7,7 +7,7 @@ old
 *.egg-info
 dist
 build
-__pychache__
+__pycache__
 .ipynb_checkpoints
 *.lock
 test.png

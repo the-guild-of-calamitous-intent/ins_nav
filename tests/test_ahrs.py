@@ -13,6 +13,8 @@
 #     # c.updateAGM(a,g,m,b,dt)
 #     # c.updateAG(a,g,b,dt)
 
+import pytest
+from ins_nav import *
 
 def test_dummy():
     assert True

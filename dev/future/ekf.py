@@ -11,80 +11,82 @@ from numpy.linalg import inv
 from pyrk import RK4
 
 
-class EKF(object):
-    """
-    Extended Kalman Filter (EKF)
+## SEE SPICEWEASLE ##
 
-    def func(time, x, u):
-        some nonlinear eqns
-        return dx
+# class EKF(object):
+#     """
+#     Extended Kalman Filter (EKF)
 
-    ekf = EKF(size_x,size_z)
-    ekf.init(x, func, R, Q)
+#     def func(time, x, u):
+#         some nonlinear eqns
+#         return dx
 
-    while True:
-        ekf.predict(u)
-        x_hat = ekf.update(z)
-    """
-    def __init__(self, dim_x, dim_z, dt):
-        # self.x = x  # init state
-        # self.rk = RK4(f)
-        self.dt = dt
-        self.F = np.eye(dim_x)
-        self.H = 0
-        self.P = np.eye(dim_x)
-        self.R = np.eye(dim_z)
-        self.Q = np.eye(dim_x)
-        self.I = np.eye(dim_x)
+#     ekf = EKF(size_x,size_z)
+#     ekf.init(x, func, R, Q)
 
-    def init(self, x, f, r, q):
-        """
-        f - dx = f(x, u)
-        r -
-        q -
-        """
-        self.x = x
-        self.rk = RK4(f)
-        self.jacob = nd.Jacobian(f)
-        self.R = r
-        self.Q = q
-        self.time = 0.0
+#     while True:
+#         ekf.predict(u)
+#         x_hat = ekf.update(z)
+#     """
+#     def __init__(self, dim_x, dim_z, dt):
+#         # self.x = x  # init state
+#         # self.rk = RK4(f)
+#         self.dt = dt
+#         self.F = np.eye(dim_x)
+#         self.H = 0
+#         self.P = np.eye(dim_x)
+#         self.R = np.eye(dim_z)
+#         self.Q = np.eye(dim_x)
+#         self.I = np.eye(dim_x)
 
-    def something(self, u):
-        rk = self.rk
-        dt = self.dt
-        t = self.time
-        x = self.x
+#     def init(self, x, f, r, q):
+#         """
+#         f - dx = f(x, u)
+#         r -
+#         q -
+#         """
+#         self.x = x
+#         self.rk = RK4(f)
+#         self.jacob = nd.Jacobian(f)
+#         self.R = r
+#         self.Q = q
+#         self.time = 0.0
 
-        y = rk.step(x, u, t, dt)
-        self.F = self.jacob(y)
+#     def something(self, u):
+#         rk = self.rk
+#         dt = self.dt
+#         t = self.time
+#         x = self.x
 
-        self.time = t+dt
-        self.x = y
+#         y = rk.step(x, u, t, dt)
+#         self.F = self.jacob(y)
 
-        return y
+#         self.time = t+dt
+#         self.x = y
 
-    def predict(self, u):
-        self.x = self.something(u)
+#         return y
 
-        F = self.F
-        Q = self.Q
-        P = self.P
+#     def predict(self, u):
+#         self.x = self.something(u)
 
-        self.P = dot(F, dot(P, F.T)) + Q
+#         F = self.F
+#         Q = self.Q
+#         P = self.P
 
-    def update(self, z):
-        H = self.H
-        R = self.R
-        I = self.I
-        P = self.P
-        x = self.x
+#         self.P = dot(F, dot(P, F.T)) + Q
 
-        K = dot(P, dot(H.T, inv(dot(H, dot(P, H.T)) + R)))
-        x = x + K.dot(z-H)
-        p = (I - K.dot(H)).dot(P)
+#     def update(self, z):
+#         H = self.H
+#         R = self.R
+#         I = self.I
+#         P = self.P
+#         x = self.x
 
-        self.x = x
-        self.P = p
+#         K = dot(P, dot(H.T, inv(dot(H, dot(P, H.T)) + R)))
+#         x = x + K.dot(z-H)
+#         p = (I - K.dot(H)).dot(P)
 
-        return x
+#         self.x = x
+#         self.P = p
+
+#         return x

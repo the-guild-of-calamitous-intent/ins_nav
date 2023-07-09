@@ -121,28 +121,44 @@ class WGS84:
         den = (a * cos(lat))**2 + (b * sin(lat))**2
         return sqrt(num / den)
 
-    def llh2ecef(self, lla):
-        """
-        llh: latitude (phi), longitude(lambda), height (or altitude) (H) in [deg, deg, m]
-        ecef: Earth Centered Earth Fixed in [m, m, m]
+    # def llh2ecef(self, lla):
+    #     """
+    #     llh: latitude (phi), longitude(lambda), height (or altitude) (H) in [deg, deg, m]
+    #     ecef: Earth Centered Earth Fixed in [m, m, m]
 
-        ref: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
-        """
-        lat = lla[0] *deg2rad
-        lon = lla[1] * deg2rad
+    #     ref: https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
+    #     """
+    #     lat = lla[0] *deg2rad
+    #     lon = lla[1] * deg2rad
 
-        if len(lla) == 2:
-            H = 0
-        else:
-            H = lla[2]
+    #     if len(lla) == 2:
+    #         H = 0
+    #     else:
+    #         H = lla[2]
 
-        e2 = self.e**2
-        n = self.a / sqrt(1.0 - e2 * sin(lat)**2)
+    #     e2 = self.e**2
+    #     n = self.a / sqrt(1.0 - e2 * sin(lat)**2)
 
-        x = (n + H) * cos(lat) * cos(lon)
-        y = (n + H) * cos(lat) * sin(lon)
-        z = ((1 - e2) * n + H) * sin(lat)
-        return np.array([x, y, z])
+    #     x = (n + H) * cos(lat) * cos(lon)
+    #     y = (n + H) * cos(lat) * sin(lon)
+    #     z = ((1 - e2) * n + H) * sin(lat)
+    #     return np.array([x, y, z])
+
+    def llh2ecef(self, lat, lon, H):
+        # matlab: https://www.mathworks.com/help/aeroblks/llatoecefposition.html
+        # this works, matches: https://www.oc.nps.edu/oc2902w/coord/llhxyz.htm
+        mu = lat*pi/180
+        i = lon*pi/180
+        r = 6378137
+        f = 1/298.257223563
+        ls = atan((1-f)**2 * tan(mu))
+        rs = sqrt(r**2 / (1+ (1/(1-f)**2 - 1)*sin(ls)**2))
+
+        x = rs*cos(ls)*cos(i) + H*cos(mu)*cos(i)
+        y = rs*cos(ls)*sin(i) + H*cos(mu)*sin(i)
+        z = rs*sin(ls)+H*sin(mu)
+
+        return x,y,z
 
     def ecef2llh(self, ecef):
         """

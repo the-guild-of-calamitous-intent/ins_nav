@@ -35,7 +35,7 @@ def test_ecef():
     wgs = WGS84()
 
     for ecef, lla in data:
-        assert np.allclose( wgs.llh2ecef(lla), ecef )
+        assert np.allclose( wgs.llh2ecef(*lla), ecef )
 
         # the altitude doesn't always come close ... so only look at lat, lon values
         assert np.allclose( wgs.ecef2llh(ecef)[:2], lla[:2] ), f"{wgs.ecef2llh(ecef)}, {lla}"

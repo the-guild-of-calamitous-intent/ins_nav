@@ -35,10 +35,10 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} INTERFACE src/)
 
 # Examples -----------------------------------------------------------
-# message(STATUS "Building ${PROJECT_NAME} examples is ${BUILD_EXAMPLES}")
-# if(BUILD_EXAMPLES)
-#     add_subdirectory(examples)
-# endif()
+message(STATUS "Building ${PROJECT_NAME} examples is ${BUILD_EXAMPLES}")
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 # Tests --------------------------------------------------------------
 message(STATUS "Building ${PROJECT_NAME} gtests is ${BUILD_GTESTS}")

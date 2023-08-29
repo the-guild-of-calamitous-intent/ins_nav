@@ -29,8 +29,9 @@ struct ecef_t {nfloat x, y, z;};
 namespace WGS84 {
   constexpr nfloat INV_FLATTENING     = 298.257223563;
   constexpr nfloat FLATTENING         = 1.0 / INV_FLATTENING;
-  constexpr nfloat SEMI_MAJOR_AXIS_M  = 6378137.0;                  // m
-  constexpr nfloat SEMI_MAJOR_AXIS_KM = SEMI_MAJOR_AXIS_M / 1000.0; // Km
+  constexpr nfloat SEMI_MAJOR_AXIS_M  = 6378137.0;                  // a, m
+  constexpr nfloat SEMI_MAJOR_AXIS_KM = SEMI_MAJOR_AXIS_M / 1000.0; // a, Km
+  constexpr nfloat SEMI_MINOR_AXIS_M  = SEMI_MAJOR_AXIS_M - SEMI_MAJOR_AXIS_M * FLATTENING; // b, m
   // constexpr nfloat STD_PRESSURE_PA    = 101325.0;                   // Pa
   constexpr nfloat SPIN_RATE_RPS      = 7.2921150e-5;               // rad / sec
   constexpr nfloat G0                 = 9.7803253359; // Gravity [m/sec^2]
@@ -64,23 +65,30 @@ namespace WGS84 {
   ecef_t llh2ecef(const llh_t& llh) {
     // matlab: https://www.mathworks.com/help/aeroblks/llatoecefposition.html
     // this works, matches: https://www.oc.nps.edu/oc2902w/coord/llhxyz.htm
-    nfloat lat = llh.lat;
-    nfloat lon = llh.lon;
-    nfloat H = llh.h;
+    // nfloat lat = llh.lat;
+    // nfloat lon = llh.lon;
+    const nfloat H = llh.h;
 
-    nfloat mu = lat*Units::deg2rad;
-    nfloat i = lon*Units::deg2rad;
-    nfloat r = 6378137.0;
+    const nfloat mu = llh.lat*Units::deg2rad;
+    const nfloat i = llh.lon*Units::deg2rad;
+    const nfloat r = SEMI_MAJOR_AXIS_M; //6378137.0;
     // nfloat f = 1.0/298.257223563;
-    nfloat ls = atan(pow(1.0-f,2) * tan(mu));
-    nfloat rs = sqrt(r*r / (1.0 + (1.0/pow(1.0-f,2) - 1.0)*pow(sin(ls),2)));
+    const nfloat ls = atan(pow(1.0-f,2) * tan(mu));
+    const nfloat rs = sqrt(r*r / (1.0 + (1.0/pow(1.0-f,2) - 1.0)*pow(sin(ls),2)));
 
-    nfloat x = rs*cos(ls)*cos(i) + H*cos(mu)*cos(i);
-    nfloat y = rs*cos(ls)*sin(i) + H*cos(mu)*sin(i);
-    nfloat z = rs*sin(ls)+H*sin(mu);
+    const nfloat x = rs*cos(ls)*cos(i) + H*cos(mu)*cos(i);
+    const nfloat y = rs*cos(ls)*sin(i) + H*cos(mu)*sin(i);
+    const nfloat z = rs*sin(ls)+H*sin(mu);
 
     return ecef_t{x,y,z};
   }
+
+  // llh_t ecef2llh(const ecef_t& ecef) {
+  //   const double a = SEMI_MAJOR_AXIS_M;
+  //   const double a2 = a*a;
+  //   const double b2 = SEMI_MINOR_AXIS_M;
+  //   const double e2 =
+  // }
 
   nfloat haversine(const llh_t& a, const llh_t& b) {
     // Returns the haversine (or great circle) distance between

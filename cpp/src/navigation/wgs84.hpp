@@ -4,12 +4,7 @@
 #include <algorithm>
 #include <math.h>
 #include "units.hpp"
-
-#if defined(ARDUINO)
-typedef float nfloat;
-#elif defined(__APPLE__) || defined(__linux__)
-typedef double nfloat;
-#endif
+#include "common.hpp"
 
 using std::min;
 using std::max;
@@ -19,8 +14,8 @@ using std::max;
 // constexpr nfloat rad2deg = 180.0/M_PI;
 // };
 
-struct llh_t {nfloat lat, lon, h;};
-struct ecef_t {nfloat x, y, z;};
+// struct llh_t {nfloat lat, lon, h;};
+// struct ecef_t {nfloat x, y, z;};
 
 // FIXME: This is a MESS ... what do I want to do?
 
@@ -83,12 +78,13 @@ namespace WGS84 {
     return ecef_t{x,y,z};
   }
 
-  // llh_t ecef2llh(const ecef_t& ecef) {
-  //   const double a = SEMI_MAJOR_AXIS_M;
-  //   const double a2 = a*a;
-  //   const double b2 = SEMI_MINOR_AXIS_M;
-  //   const double e2 =
-  // }
+  llh_t ecef2llh(const ecef_t& ecef) {
+    const double a = SEMI_MAJOR_AXIS_M;
+    const double a2 = a*a;
+    const double b2 = SEMI_MINOR_AXIS_M;
+    // const double e2 =
+    return llh_t{0,0,0};
+  }
 
   nfloat haversine(const llh_t& a, const llh_t& b) {
     // Returns the haversine (or great circle) distance between

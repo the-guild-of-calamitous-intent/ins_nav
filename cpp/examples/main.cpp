@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <type_traits> // std::is_enum
+#include <navigation/nav.hpp>
 
 using namespace std;
 

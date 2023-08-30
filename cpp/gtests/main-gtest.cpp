@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <nav.hpp>
+#include <navigation/nav.hpp>
 
 // Demonstrate some basic assertions.
 TEST(nav, dummy) {

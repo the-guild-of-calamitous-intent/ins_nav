@@ -8,6 +8,9 @@
 #include <math.h>
 #include <stdint.h>
 
+#ifndef __UNITS_HPP__
+#define __UNITS_HPP__
+
 namespace Units {
 
 // Angular
@@ -68,3 +71,5 @@ inline double decimal_date(uint8_t yr, uint8_t mon, uint8_t day) {
 }
 
 } // namespace Units
+
+#endif

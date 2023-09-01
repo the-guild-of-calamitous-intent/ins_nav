@@ -3,7 +3,7 @@
 
 #if defined(ARDUINO)
 typedef float nfloat;
-#elif defined(__APPLE__) || defined(__linux__)
+#else
 typedef double nfloat;
 #endif
 

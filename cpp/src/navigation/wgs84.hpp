@@ -23,7 +23,7 @@ using std::max;
 //   public:
 namespace WGS84 {
   constexpr nfloat INV_FLATTENING     = 298.257223563;
-  constexpr nfloat FLATTENING         = 1.0 / INV_FLATTENING;
+  constexpr nfloat FLATTENING         = 1.0 / INV_FLATTENING;       // f
   constexpr nfloat SEMI_MAJOR_AXIS_M  = 6378137.0;                  // a, m
   constexpr nfloat SEMI_MAJOR_AXIS_KM = SEMI_MAJOR_AXIS_M / 1000.0; // a, Km
   constexpr nfloat SEMI_MINOR_AXIS_M  = SEMI_MAJOR_AXIS_M - SEMI_MAJOR_AXIS_M * FLATTENING; // b, m
@@ -32,12 +32,17 @@ namespace WGS84 {
   constexpr nfloat G0                 = 9.7803253359; // Gravity [m/sec^2]
 
   // nfloat rf = 298.257223563;
-  const nfloat f = 1.0/FLATTENING;
+  // const nfloat f = 1.0/FLATTENING;
+  // const nfloat a = SEMI_MAJOR_AXIS_M;
+  // const nfloat b = a - a * f;
+  constexpr nfloat RADIUS = (2.0*SEMI_MAJOR_AXIS_M + SEMI_MINOR_AXIS_M) / 3.0;
+  constexpr nfloat ROTATIONAL_PERIOD = 23*3600 + 56*60 + 4.09053;
+
+  const nfloat f = FLATTENING;
   const nfloat a = SEMI_MAJOR_AXIS_M;
-  const nfloat b = a - a * f;
+  const nfloat b = SEMI_MINOR_AXIS_M;
+  const nfloat r = RADIUS;
   const nfloat e = sqrt(1.0 - ( (b*b) / (a*a) ));
-  const nfloat r = (2.0*a + b) / 3.0;
-  const nfloat rotation_period = 23*3600 + 56*60 + 4.09053;
 
   nfloat rate = SPIN_RATE_RPS;  // Rotation rate of Earth [rad/s]
   nfloat sf = 1.2383e-3;       // Schuller frequency

@@ -2,25 +2,25 @@ name: CheckPackage
 on: [push]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        strategy:
-          max-parallel: 5
-          fail-fast: true
-          matrix:
-            python-version: ["3.8", "3.9", "3.10", "3.11"]
-        steps:
-            - uses: actions/checkout@master
-            - name: Setup Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v2
-              with:
-                python-version: ${{ matrix.python-version }}
-            - name: Install packages
-              run: |
-                echo "Installing dependencies"
-                cd python
-                python3 -m venv .venv
-                source .venv/bin/activate
-                pip install -U pip setuptools wheel poetry pytest
-                poetry install
-                pytest tests/
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      fail-fast: true
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install packages
+        run: |
+          echo "Installing dependencies"
+          cd python
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -U pip setuptools wheel poetry pytest
+          poetry install
+          pytest tests/

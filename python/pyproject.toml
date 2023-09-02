@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "ins_nav"
-version = "0.6.2"
+version = "2023.07.02"
 description = "A library to do inertial navigation"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
 license = "MIT"
 homepage = "https://pypi.org/project/ins_nav/"
-repository = 'https://github.com/MomsFriendlyRobotCompany/ins_nav'
+repository = 'https://github.com/the-guild-of-calamitous-intent/ins_nav'
 # documentation = "http://..."
 keywords = ['library', 'robotics', 'robot', 'ins', 'inertial', 'navigation', 'ahrs', 'imu']
 classifiers = [
